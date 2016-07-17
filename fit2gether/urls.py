@@ -19,4 +19,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^polls/', include('polls.urls')),
+    url(r'^auth/', include('socauth.urls')),
+    url(r'', include('social.apps.django_app.urls', namespace='social'))
 ]
