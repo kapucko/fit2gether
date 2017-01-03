@@ -1,0 +1,13 @@
+{% extends 'fit2gether_core/base.html' %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+
+<div class="jumbotron">
+  <h1><a href="{{ object.url }}">{{ object.name }}</a></h1>
+  <p>{{ object.address }}</p>
+</div>
+</div>
+</div>
+{% endblock %}

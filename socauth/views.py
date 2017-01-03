@@ -6,59 +6,56 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as auth_logout, login
 
-from social.backends.oauth import BaseOAuth1, BaseOAuth2
-from social.backends.google import GooglePlusAuth
-from social.backends.utils import load_backends
-from social.apps.django_app.utils import psa
+from social_core.backends.oauth import BaseOAuth1, BaseOAuth2
+from social_core.backends.google import GooglePlusAuth
+from social_core.backends.utils import load_backends
+from social_django.utils import psa
 
-from decorators import render_to
+from .decorators import render_to
 
 
 def logout(request):
     """Logs out user"""
     auth_logout(request)
-    return redirect('/auth')
-
-
-def context(**extra):
-    return dict({
-        'plus_id': getattr(settings, 'SOCIAL_AUTH_GOOGLE_PLUS_KEY', None),
-        'plus_scope': ' '.join(GooglePlusAuth.DEFAULT_SCOPE),
-        'available_backends': load_backends(settings.AUTHENTICATION_BACKENDS)
-    }, **extra)
+    return redirect('/')
 
 
 @render_to('socauth/home.html')
 def home(request):
     """Home view, displays login mechanism"""
     if request.user.is_authenticated():
-        return redirect('socauth:done')
-    return context()
+        return redirect('done')
 
 
 @login_required
 @render_to('socauth/home.html')
 def done(request):
     """Login complete view, displays user data"""
-    return context()
+    pass
 
 
 @render_to('socauth/home.html')
 def validation_sent(request):
-    return context(
-        validation_sent=True,
-        email=request.session.get('email_validation_address')
-    )
+    """Email validation sent confirmation page"""
+    return {
+        'validation_sent': True,
+        'email': request.session.get('email_validation_address')
+    }
 
 
 @render_to('socauth/home.html')
 def require_email(request):
+    """Email required page"""
     backend = request.session['partial_pipeline']['backend']
-    return context(email_required=True, backend=backend)
+    return {
+        'email_required': True,
+        'backend': backend
+    }
 
 
 @psa('social:complete')
 def ajax_auth(request, backend):
+    """AJAX authentication endpoint"""
     if isinstance(request.backend, BaseOAuth1):
         token = {
             'oauth_token': request.REQUEST.get('access_token'),

@@ -1,0 +1,60 @@
+{% extends 'fit2gether_core/base.html' %}
+
+
+{% block content %}
+    {% if form.errors %}
+      <p>There were an error. Please try again.</p>
+    {% endif %}
+  <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Please register a new account</h3>
+                    </div>
+                    <div class="panel-body">
+<form method="post" action="{% url 'fit2gether_core:register' %}">
+{% csrf_token %}
+<p class="bs-component">
+<table>
+{#  <tr>#}
+{#      <td>{{ form.username.label_tag }}</td>#}
+{#      <td>{{ form.username }}</td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>{{ form.email.label_tag }}</td>#}
+{#    <td>{{ form.email }}</td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#      <td>{{ form.password1.label_tag }}</td>#}
+{#      <td>{{ form.password1 }}</td>#}
+{#  </tr>#}
+{#    <tr>#}
+{#      <td>{{ form.password2.label_tag }}</td>#}
+{#      <td>{{ form.password2 }}</td>#}
+{#  </tr>#}
+{{ form.as_table }}
+</table>
+</p>
+<p class="bs-component">
+<center><input class="btn btn-success btn-sm" type="submit" value="Register" /></center>
+</p>
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+{% if not user.is_authenticated %}
+$("ul.nav.navbar-nav.navbar-right").css("display","none");
+{% endif %}
+</script>
+
+{% endblock %}
