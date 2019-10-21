@@ -1,7 +1,7 @@
 defusedxml==0.4.1
 dj-database-url==0.4.1
 Django==1.9.6
-ecdsa==0.13
+ecdsa==0.13.3
 elasticsearch==5.0.1
 Fabric==1.11.1
 Fabric3==1.12.post1
