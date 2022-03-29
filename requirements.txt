@@ -8,7 +8,7 @@ Fabric3==1.12.post1
 future==0.16.0
 gunicorn==19.6.0
 oauthlib==1.1.2
-paramiko==1.17.2
+paramiko==2.10.1
 psycopg2==2.6.1
 pycrypto==2.6.1
 pycryptodomex==3.4.3
